@@ -1,0 +1,61 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class InterfazArreglo extends JFrame {
+    private ArregloPersonalizado arregloPersonalizado;
+    private JTextArea salidaTextArea;
+
+    public InterfazArreglo(int tamaño) {
+        arregloPersonalizado = new ArregloPersonalizado(tamaño);
+
+        setLayout(new FlowLayout());
+
+        JButton llenarManualButton = new JButton("Llenar Manualmente");
+        JButton llenarAleatorioButton = new JButton("Llenar Aleatoriamente");
+        JButton ordenarButton = new JButton("Ordenar (Burbuja)");
+     
+
+        salidaTextArea = new JTextArea(10, 40);
+
+        add(llenarManualButton);
+        add(llenarAleatorioButton);
+        add(ordenarButton);
+        add(new JScrollPane(salidaTextArea));
+
+        llenarManualButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < tamaño; i++) {
+                    String entrada = JOptionPane.showInputDialog("Ingrese el valor para la posición " + i + ": ");
+                    arregloPersonalizado.setElemento(i, Integer.parseInt(entrada));
+                }
+            }
+        });
+
+        llenarAleatorioButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                arregloPersonalizado.llenarAleatoriamente();
+            }
+        });
+
+        ordenarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                arregloPersonalizado.ordenarBurbuja();
+                actualizarSalida();
+            }
+        });
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void actualizarSalida() {
+        salidaTextArea.setText("Arreglo Ordenado:\n");
+        for (int i = 0; i < arregloPersonalizado.getTamaño(); i++) {
+            salidaTextArea.append(arregloPersonalizado.getElemento(i) + " ");
+        }
+    }
+}
