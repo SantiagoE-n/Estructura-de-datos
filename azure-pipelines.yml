@@ -126,3 +126,10 @@ public class ArregloPersonalizado {
     }
 }
 
+import javax.swing.*;
+public class Main {
+    public static void main(String[] args) {
+        int tamaño = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el tamaño del arreglo: "));
+        InterfazArreglo interfazArreglo = new InterfazArreglo(tamaño);
+    }
+}
