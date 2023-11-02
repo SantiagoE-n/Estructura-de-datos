@@ -5,83 +5,85 @@
 
 trigger:
 - main
+import java.util.Scanner;
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class InterfazArreglo extends JFrame {
+public class ArregloConsola {
     private ArregloPersonalizado arregloPersonalizado;
-    private JTextArea salidaTextArea;
 
-    public InterfazArreglo(int tamaño) {
+    public ArregloConsola(int tamaño) {
         arregloPersonalizado = new ArregloPersonalizado(tamaño);
-
-        setLayout(new FlowLayout());
-
-        JButton llenarManualButton = new JButton("Llenar Manualmente");
-        JButton llenarAleatorioButton = new JButton("Llenar Aleatoriamente");
-        JButton ordenarButton = new JButton("Ordenar (Burbuja)");
-     
-
-        salidaTextArea = new JTextArea(10, 40);
-
-        add(llenarManualButton);
-        add(llenarAleatorioButton);
-        add(ordenarButton);
-        add(new JScrollPane(salidaTextArea));
-
-        llenarManualButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < tamaño; i++) {
-                    String entrada = JOptionPane.showInputDialog("Ingrese el valor para la posición " + i + ": ");
-                    arregloPersonalizado.setElemento(i, Integer.parseInt(entrada));
-                }
-            }
-        });
-
-        llenarAleatorioButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                arregloPersonalizado.llenarAleatoriamente();
-            }
-        });
-
-        ordenarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                arregloPersonalizado.ordenarBurbuja();
-                actualizarSalida();
-            }
-        });
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
-    private void actualizarSalida() {
-        salidaTextArea.setText("Arreglo Ordenado:\n");
+    public void llenarManualmente() {
+        Scanner scanner = new Scanner(System.in);
+
         for (int i = 0; i < arregloPersonalizado.getTamaño(); i++) {
-            salidaTextArea.append(arregloPersonalizado.getElemento(i) + " ");
+            System.out.print("Ingrese el valor para la posición " + i + ": ");
+            int entrada = scanner.nextInt();
+            arregloPersonalizado.setElemento(i, entrada);
         }
+    }
+
+    public void llenarAleatoriamente() {
+        arregloPersonalizado.llenarAleatoriamente();
+    }
+
+    public void ordenarBurbuja() {
+        arregloPersonalizado.ordenarBurbuja();
+    }
+
+    public void mostrarArreglo() {
+        System.out.println("Arreglo Ordenado:");
+        for (int i = 0; i < arregloPersonalizado.getTamaño(); i++) {
+            System.out.print(arregloPersonalizado.getElemento(i) + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el tamaño del arreglo: ");
+        int tamaño = scanner.nextInt();
+
+        ArregloConsola arregloConsola = new ArregloConsola(tamaño);
+
+        System.out.println("Opciones:");
+        System.out.println("1. Llenar Manualmente");
+        System.out.println("2. Llenar Aleatoriamente");
+        System.out.println("3. Ordenar (Burbuja)");
+        System.out.println("4. Salir");
+
+        int opcion;
+        do {
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    arregloConsola.llenarManualmente();
+                    arregloConsola.mostrarArreglo();
+                    break;
+                case 2:
+                    arregloConsola.llenarAleatoriamente();
+                    arregloConsola.mostrarArreglo();
+                    break;
+                case 3:
+                    arregloConsola.ordenarBurbuja();
+                    arregloConsola.mostrarArreglo();
+                    break;
+                case 4:
+                    System.out.println("Saliendo del programa.");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+                    break;
+            }
+
+        } while (opcion != 4);
     }
 }
 
-
-public class ArregloPersonalizado {
+class ArregloPersonalizado {
     private int[] arreglo;
     private int tamaño;
 
@@ -126,10 +128,16 @@ public class ArregloPersonalizado {
     }
 }
 
-import javax.swing.*;
-public class Main {
-    public static void main(String[] args) {
-        int tamaño = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el tamaño del arreglo: "));
-        InterfazArreglo interfazArreglo = new InterfazArreglo(tamaño);
-    }
-}
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
