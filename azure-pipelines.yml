@@ -81,3 +81,48 @@ public class InterfazArreglo extends JFrame {
 }
 
 
+public class ArregloPersonalizado {
+    private int[] arreglo;
+    private int tamaño;
+
+    public ArregloPersonalizado(int tamaño) {
+        this.tamaño = tamaño;
+        arreglo = new int[tamaño];
+    }
+
+    public int getTamaño() {
+        return tamaño;
+    }
+
+    public int getElemento(int índice) {
+        return arreglo[índice];
+    }
+
+    public void setElemento(int índice, int valor) {
+        arreglo[índice] = valor;
+    }
+
+    public void llenarAleatoriamente() {
+        for (int i = 0; i < tamaño; i++) {
+            arreglo[i] = (int) (Math.random() * 100);
+        }
+    }
+
+    public void ordenarBurbuja() {
+        int n = tamaño;
+        boolean intercambiado;
+        do {
+            intercambiado = false;
+            for (int i = 1; i < n; i++) {
+                if (arreglo[i - 1] > arreglo[i]) {
+                    int temp = arreglo[i - 1];
+                    arreglo[i - 1] = arreglo[i];
+                    arreglo[i] = temp;
+                    intercambiado = true;
+                }
+            }
+            n--;
+        } while (intercambiado);
+    }
+}
+
